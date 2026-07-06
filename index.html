@@ -337,10 +337,8 @@
 
     <!-- 🎶 CANCIÓN: ROPA DE BAZAR - 2 OPCIONES -->
     <!-- OPCIÓN 1: ARCHIVO MP3 (cambia el nombre si tienes el tuyo) -->
-    <audio id="musicaMP3" loop preload="auto" volume="0.35">
-        <!-- 👇 DESCOMENTA Y PONE TU ARCHIVO AQUÍ 👇 -->
-        <!-- <source src="ropa-de-bazar-ed-maverick.mp3" type="audio/mpeg"> -->
-        <source src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3" type="audio/mpeg">
+  
+
     
 
     <!-- OPCIÓN 2: YOUTUBE OFICIAL - ROPA DE BAZAR ED MAVERICK FT BRATTY (OCULTO) -->
@@ -369,31 +367,56 @@
 
        document.getElementById('btnFuegos').onclick=()=>{fuegos(10);confeti(80)};
          document.addEventListener('click',e=>{if(!['btnConfeti','btnFuegos','btnMusica','pastel'].includes(e.target.id)&&!e.target.closest('#pastel')) confeti(30)});
-         // 🎶 CONTROL DE MÚSICA UNIFICADO
-         const mp3=document.getElementById('musicaMP3');
-         const yt=document.getElementById('musicaYT');
-         const btnM=document.getElementById('btnMusica');
-         let prendida=true;
-         mp3.volume=0.35;
-         function controlMusica(estado){
-             if(estado){
-                 mp3.play().catch(()=>{});
-                 yt.src+=""; // recarga para activar autoplay
-                 btnM.innerHTML='<i class="fa fa-volume-up"></i>';
-             }else{
-                 mp3.pause();
-                 yt.src=yt.src.replace('autoplay=1','autoplay=0');
-                 btnM.innerHTML='<i class="fa fa-volume-off"></i>';
-             }
-             prendida=estado;
-         }
-         btnM.addEventListener('click',()=>controlMusica(!prendida));
-         // AL INICIAR
-         window.addEventListener('load',()=>{
-             confeti(200);
-             controlMusica(true);
-             setTimeout(()=>fuegos(4),1500);
-         });
+       // 🎶 CONTROL UNIFICADO MÚSICA | SIN ARCHIVOS LOCALES
+const yt = document.getElementById('musicaYT');
+const mp3 = document.getElementById('musicaMP3');
+const btnM = document.getElementById('btnMusica');
+let prendida = false;
+let volumen = 0.3; // 30% VOLUMEN SUAVE COMO QUERÍAMOS
+
+// Los navegadores BLOQUEAN sonido automático → empieza al PRIMER CLIC en pantalla
+document.addEventListener('click', () => {
+    if(!prendida){
+        yt.src = yt.src.replace('autoplay=0','autoplay=1');
+        mp3.volume = volumen;
+        mp3.play().catch(()=>{});
+        prendida = true;
+        btnM.innerHTML = '<i class="fa fa-volume-up"></i>';
+    }
+},{once:true});
+
+btnM.addEventListener('click', (e) => {
+    e.stopPropagation();
+    prendida = !prendida;
+    if(prendida){
+        yt.src = yt.src.replace('autoplay=0','autoplay=1');
+        mp3.play().catch(()=>{});
+        btnM.innerHTML = '<i class="fa fa-volume-up"></i>';
+        btnM.classList.add('bg-pikaAmarillo');
+        btnM.classList.remove('bg-pikaRojo','text-white');
+    }else{
+        yt.src = yt.src.replace('autoplay=1','autoplay=0');
+        mp3.pause();
+        btnM.innerHTML = '<i class="fa fa-volume-off"></i>';
+        btnM.classList.remove('bg-pikaAmarillo');
+        btnM.classList.add('bg-pikaRojo','text-white');
+    }
+});
      </script>
  </body>
+    <!-- 🎶 ROPA DE BAZAR - ED MAVERICK FT BRATTY | REPRODUCTOR OCULTO YOUTUBE -->
+<iframe 
+    id="musicaYT"
+    class="fixed opacity-0 pointer-events-none -z-50"
+    width="1" height="1"
+    src="https://www.youtube-nocookie.com/embed/pquJZEwPBjM?autoplay=0&mute=0&loop=1&playlist=pquJZEwPBjM&controls=0&modestbranding=1&rel=0&iv_load_policy=3"
+    frameborder="0"
+    allow="autoplay; encrypted-media; clipboard-write"
+    allowfullscreen>
+</iframe>
+
+<!-- 🎵 REPRODUCTOR AUXILIAR MP3 DE RESPALDO (TAMBIÉN SIN DESCARGAR NADA) -->
+<audio id="musicaMP3" loop preload="auto" volume="0.3">
+    <!-- Enlace MP3 público de respaldo, no oficial pero funcional -->
+    <source src="https://cdn.pixabay.com/download/audio/2022/03/15/audio_c8c8a73467.mp3?filename=acoustic-breeze-142631.mp3" type="audio/mpeg">
  </html>
