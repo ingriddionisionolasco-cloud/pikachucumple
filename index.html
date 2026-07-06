@@ -1,0 +1,399 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Feliz cumple mi niño</title>
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+    <link href="https://cdn.jsdelivr.net/npm/font-awesome@4.7.0/css/font-awesome.min.css" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;600;700&family=Bangers&display=swap" rel="stylesheet">
+    
+    <script>
+        // ⚙️ SOLO CAMBIA ESTO Y LISTO ⚙️
+        const NOMBRE_CUMPLEANERO = "owencito";
+        const EDAD_CUMPLIDA = 16;
+
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        pikaAmarillo: '#FFCB05', pikaRojo: '#FF3B30', pikaNegro: '#1A1A1A', pikaCafe: '#A0522D',
+                        ashRojo: '#E53935', ashAzul: '#1565C0', charmNaranja: '#FF7043',
+                        squirtleAzul: '#42A5F5', bulbaVerde: '#66BB6A', bulbaVerdeOsc: '#388E3C',
+                    },
+                    fontFamily: { pokemon: ['Bangers','cursive'], linda: ['Fredoka','sans-serif'] }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        *{margin:0;padding:0;box-sizing:border-box}
+        .sombra-texto{text-shadow:3px 3px 0 #1A1A1A,6px 6px 15px rgba(0,0,0,.35)}
+        .brillo-pika{animation:brilloPika 1.6s ease-in-out infinite alternate}
+        .flotar{animation:flotar 6s ease-in-out infinite}
+        .flotar2{animation:flotar 7.5s ease-in-out infinite}
+        .flotar3{animation:flotar 9s ease-in-out infinite}
+        .flotar4{animation:flotar 10.5s ease-in-out infinite}
+        .saltar{animation:saltar 2.2s ease-in-out infinite}
+        .mover-cola{animation:moverCola 1.2s ease-in-out infinite;transform-origin:bottom right}
+        .llama{animation:llama .5s ease-in-out infinite alternate;transform-origin:bottom center}
+        .rayo{animation:rayo .35s ease-in-out infinite}
+        .caer-confeti{animation:caer linear infinite}
+        .crecer{animation:crecer 1.2s ease-out forwards}
+        .parpadear{animation:parpadear .7s ease-in-out infinite alternate}
+        .apagada{opacity:0!important;transform:scale(0)!important}
+        .luz-fondo{animation:luzFondo 4s ease-in-out infinite alternate}
+        .explosion{animation:explosion .9s ease-out forwards}
+        @keyframes brilloPika{from{filter:drop-shadow(0 0 6px #fff)}to{filter:drop-shadow(0 0 22px #FFCB05) drop-shadow(0 0 40px #FF3B30)}}
+        @keyframes flotar{0%,100%{transform:translate(0,0) rotate(-5deg)}25%{transform:translate(40px,-35px) rotate(4deg)}50%{transform:translate(-30px,-60px) rotate(-3deg)}75%{transform:translate(-50px,-20px) rotate(5deg)}}
+        @keyframes saltar{0%,100%{transform:translateY(0)}45%{transform:translateY(-50px)}50%{transform:translateY(-50px) scaleY(.85) scaleX(1.15)}}
+        @keyframes moverCola{0%,100%{transform:rotate(-12deg)}50%{transform:rotate(18deg)}}
+        @keyframes llama{from{transform:scaleY(1)}to{transform:scaleY(1.25)}}
+        @keyframes rayo{0%,100%{opacity:1}50%{opacity:.3}}
+        @keyframes caer{0%{transform:translateY(-10vh) rotate(0);opacity:1}100%{transform:translateY(110vh) rotate(720deg);opacity:0}}
+        @keyframes crecer{0%{transform:scale(0);opacity:0}80%{transform:scale(1.12)}100%{transform:scale(1);opacity:1}}
+        @keyframes parpadear{from{opacity:1}to{opacity:.5}}
+        @keyframes luzFondo{0%{opacity:.2}100%{opacity:.55}}
+        @keyframes explosion{0%{transform:scale(0);opacity:1}100%{transform:scale(2.4);opacity:0}}
+    </style>
+</head>
+<body class="bg-gradient-to-br from-pikaAmarillo via-yellow-200 to-orange-200 min-h-screen overflow-x-hidden font-linda relative">
+
+    <!-- ✨ LUCES ELÉCTRICAS DE FONDO -->
+    <div class="luz-fondo fixed top-10 left-10 w-80 h-80 bg-yellow-300 rounded-full blur-[130px] pointer-events-none z-0"></div>
+    <div class="luz-fondo fixed bottom-10 right-10 w-96 h-96 bg-pikaRojo/60 rounded-full blur-[130px] pointer-events-none z-0" style="animation-delay:1.5s"></div>
+    <div class="luz-fondo fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[500px] h-[500px] bg-white rounded-full blur-[150px] pointer-events-none z-0" style="animation-delay:.8s"></div>
+
+    <!-- ⚡ RAYITOS -->
+    <div class="fixed inset-0 pointer-events-none z-10">
+        <div class="rayo absolute top-[12%] left-[8%] text-5xl brillo-pika">⚡</div>
+        <div class="rayo absolute top-[22%] right-[10%] text-4xl" style="animation-delay:.2s">✨</div>
+        <div class="rayo absolute bottom-[18%] left-[12%] text-5xl" style="animation-delay:.4s">⚡</div>
+        <div class="rayo absolute bottom-[28%] right-[8%] text-4xl" style="animation-delay:.6s">✨</div>
+    </div>
+
+    <!-- 🎊 CONFETI + 🎆 FUEGOS -->
+    <div id="confeti" class="fixed inset-0 pointer-events-none z-30"></div>
+    <div id="fuegos" class="fixed inset-0 pointer-events-none z-25"></div>
+
+    <!-- 🐱‍👤 PANDILLA COMPLETA: PIKACHU + ASH + CHARMANDER + SQUIRTLE + BULBASAUR -->
+    <div class="fixed inset-0 pointer-events-none z-10">
+        <!-- 🐹 PIKACHU CON IMAGEN REAL FLOTANDO -->
+<div class="flotar absolute left-[7%] top-[50%] z-10" style="animation-delay:.4s">
+  <img src="img/Ninja-png-1742163441-6933165_resized (1).png" class="w-24 md:w-32 brillo-pika" alt="Pikachu">
+</div>
+<div class="flotar3 absolute right-[7%] top-[55%] z-10" style="animation-delay:1s">
+  <img src="img/Ninja-png-1742163441-6933165_resized (1).png" class="w-20 md:w-28 brillo-pika" style="transform:scaleX(-1)" alt="Pikachu">
+</div>
+
+<div class="flotar absolute left-[3%] top-[40%] z-10" style="animation-delay:.4s">
+  <img src="img/Ninja-png-1740402687-2844864_resized.png" class="w-24 md:w-32 brillo-pika" alt="Pikachu">
+</div>
+<div class="flotar3 absolute right-[3%] top-[35%] z-10" style="animation-delay:1s">
+  <img src="img/Ninja-png-1740402687-2844864_resized.png" class="w-20 md:w-28 brillo-pika" style="transform:scaleX(-1)" alt="Pikachu">
+</div>
+        <!-- ⚡ PIKACHU IZQUIERDA -->
+        <div class="flotar absolute left-[1%] bottom-[4%] brillo-pika" style="animation-delay:.2s">
+            <div class="relative w-28 h-32">
+                <div class="absolute inset-0 bg-pikaAmarillo rounded-full border-2 border-pikaNegro"></div>
+                <div class="absolute -top-4 left-3 w-3 h-8 bg-pikaNegro rounded-t-full -rotate-20"></div>
+                <div class="absolute -top-4 right-3 w-3 h-8 bg-pikaNegro rounded-t-full rotate-20"></div>
+                <div class="absolute top-9 left-5 w-3 h-3 bg-pikaNegro rounded-full"></div>
+                <div class="absolute top-9 right-5 w-3 h-3 bg-pikaNegro rounded-full"></div>
+                <div class="absolute top-12 left-0 w-4 h-2 bg-pikaRojo rounded-full opacity-80"></div>
+                <div class="absolute top-12 right-0 w-4 h-2 bg-pikaRojo rounded-full opacity-80"></div>
+                <div class="mover-cola absolute -right-8 bottom-4 w-11 h-7 bg-pikaAmarillo border border-pikaNegro" style="clip-path:polygon(0 50%,30% 0,60% 40%,100% 0,100% 100%,60% 60%,30% 100%)"></div>
+            </div>
+        </div>
+        <!-- 🧢 ASH KETCHUM ARRIBA IZQ -->
+        <div class="flotar2 absolute left-[6%] top-[5%]" style="animation-delay:.8s">
+            <div class="relative w-24 h-28">
+                <div class="absolute top-0 left-1/2 -translate-x-1/2 w-20 h-8 bg-ashRojo rounded-t-full border-2 border-pikaNegro"></div>
+                <div class="absolute top-6 left-0 w-full h-2 bg-pikaNegro"></div>
+                <div class="absolute top-3 left-1/2 -translate-x-1/2 w-3 h-3 bg-pikaAmarillo rounded-full border border-pikaNegro"></div>
+                <div class="absolute top-8 left-1/2 -translate-x-1/2 w-16 h-14 bg-[#FFD9B3] rounded-full border-2 border-pikaNegro"></div>
+                <div class="absolute top-12 left-6 w-2 h-2 bg-pikaNegro rounded-full"></div>
+                <div class="absolute top-12 right-6 w-2 h-2 bg-pikaNegro rounded-full"></div>
+                <div class="absolute top-18 left-1/2 -translate-x-1/2 w-4 h-1.5 bg-pikaRojo rounded-full"></div>
+            </div>
+        </div>
+        <!-- 🔥 CHARMANDER ARRIBA DER -->
+        <div class="flotar3 absolute right-[6%] top-[6%]" style="animation-delay:1.2s">
+            <div class="relative w-24 h-28">
+                <div class="absolute inset-0 bg-charmNaranja rounded-full border-2 border-pikaNegro"></div>
+                <div class="absolute top-6 left-5 w-3 h-3 bg-white rounded-full border border-pikaNegro"><div class="absolute top-1 left-1 w-1.5 h-1.5 bg-pikaNegro rounded-full"></div></div>
+                <div class="absolute top-6 right-5 w-3 h-3 bg-white rounded-full border border-pikaNegro"><div class="absolute top-1 left-1 w-1.5 h-1.5 bg-pikaNegro rounded-full"></div></div>
+                <div class="absolute top-14 left-1/2 -translate-x-1/2 w-4 h-2 bg-pikaNegro rounded-b-full"></div>
+                <div class="llama absolute -top-4 right-0 w-4 h-6 bg-gradient-to-t from-charmNaranja via-pikaAmarillo to-white rounded-full blur-[.5px]"></div>
+            </div>
+        </div>
+        <!-- 💧 SQUIRTLE ABAJO DER -->
+        <div class="flotar4 absolute right-[2%] bottom-[6%]" style="animation-delay:.5s">
+            <div class="relative w-28 h-28">
+                <div class="absolute inset-0 bg-squirtleAzul rounded-full border-2 border-pikaNegro"></div>
+                <div class="absolute top-2 left-1/2 -translate-x-1/2 w-16 h-10 bg-[#8D6E63] rounded-t-full border-2 border-pikaNegro"></div>
+                <div class="absolute top-10 left-5 w-3 h-3 bg-white rounded-full border border-pikaNegro"><div class="absolute top-1 left-1 w-1.5 h-1.5 bg-pikaNegro rounded-full"></div></div>
+                <div class="absolute top-10 right-5 w-3 h-3 bg-white rounded-full border border-pikaNegro"><div class="absolute top-1 left-1 w-1.5 h-1.5 bg-pikaNegro rounded-full"></div></div>
+                <div class="absolute top-16 left-1/2 -translate-x-1/2 w-5 h-2 bg-pikaNegro rounded-full"></div>
+                <div class="absolute -top-2 left-1/2 -translate-x-1/2 w-0 h-0 border-l-[8px] border-r-[8px] border-b-[14px] border-transparent border-b-squirtleAzul"></div>
+            </div>
+        </div>
+        <!-- 🌿 BULBASAUR CENTRO ARRIBA -->
+        <div class="flotar absolute left-1/2 -translate-x-1/2 top-[3%]" style="animation-delay:1.6s">
+            <div class="relative w-28 h-24">
+                <div class="absolute bottom-0 left-1/2 -translate-x-1/2 w-24 h-16 bg-[#B2DFB5] rounded-full border-2 border-pikaNegro"></div>
+                <div class="absolute top-0 left-1/2 -translate-x-1/2 w-20 h-14 bg-bulbaVerdeOsc rounded-t-full border-2 border-pikaNegro">
+                    <div class="absolute top-2 left-1/2 -translate-x-1/2 w-0 h-0 border-l-[6px] border-r-[6px] border-b-[10px] border-transparent border-b-bulbaVerde"></div>
+                    <div class="absolute top-5 left-2 w-0 h-0 border-l-[5px] border-r-[5px] border-b-[8px] border-transparent border-b-bulbaVerde"></div>
+                    <div class="absolute top-5 right-2 w-0 h-0 border-l-[5px] border-r-[5px] border-b-[8px] border-transparent border-b-bulbaVerde"></div>
+                </div>
+                <div class="absolute bottom-6 left-6 w-2.5 h-2.5 bg-pikaNegro rounded-full"></div>
+                <div class="absolute bottom-6 right-6 w-2.5 h-2.5 bg-pikaNegro rounded-full"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 🎵 BOTÓN MÚSICA ROPA DE BAZAR -->
+    <button id="btnMusica" class="fixed top-4 right-4 z-50 bg-pikaAmarillo hover:bg-pikaRojo hover:text-white text-pikaNegro w-12 h-12 rounded-full shadow-xl flex items-center justify-center text-xl transition-all hover:scale-110 border-2 border-pikaNegro" title="Ropa de Bazar - Ed Maverick">
+        <i class="fa fa-music"></i>
+    </button>
+    <div class="fixed top-16 right-4 z-50 bg-pikaNegro/90 text-white text-xs px-3 py-1.5 rounded-full max-w-[160px] text-center">
+        🎶 Ropa de Bazar<br>Ed Maverick ft Bratty
+    </div>
+
+    <!-- 📝 CONTENIDO PRINCIPAL -->
+    <main class="relative z-20 min-h-screen flex flex-col items-center justify-center px-4 py-10 text-center">
+        <p class="crecer text-pikaNegro text-lg md:text-xl mb-3 tracking-widest font-bold" style="animation-delay:.2s">⚡</p>
+        <h1 class="crecer font-pokemon text-6xl md:text-8xl lg:text-9xl text-pikaAmarillo sombra-texto brillo-pika mb-3" style="animation-delay:.5s">¡FELIZ CUMPLEAÑOS!</h1>
+        <h2 id="nombre" class="crecer text-pikaNegro text-3xl md:text-5xl font-extrabold mb-2" style="animation-delay:.8s"></h2>
+        <div class="crecer my-6" style="animation-delay:1.1s">
+            <div class="inline-block bg-pikaAmarillo border-[4px] border-pikaNegro rounded-full px-10 py-4 shadow-2xl brillo-pika">
+                <span class="text-pikaNegro text-xl font-bold">¡Cumples</span>
+                <span id="edad" class="font-pokemon text-6xl md:text-7xl text-pikaRojo mx-2 sombra-texto"></span>
+                <span class="text-pikaNegro text-xl font-bold">años! 🥳⚡</span>
+            </div>
+        </div>
+        <h3 class="crecer text-pikaNegro text-xl md:text-2xl font-bold mb-10" style="animation-delay:1.3s">🎁  <b>❤️</b> felicidades🎁</h3>
+
+        <!-- 🍰 PASTEL PIKACHU -->
+        <!-- 🍰 PASTEL PIKACHU ✨ SUPER DECORADO ✨ -->
+<div id="pastel" class="crecer mb-10 relative" style="animation-delay:1.5s">
+    <div class="relative w-[300px] h-[280px] md:w-[420px] md:h-[380px] mx-auto">
+
+        <!-- ✨ LUCITAS BRILLANTES ALREDEDOR -->
+        <div class="parpadear absolute -top-4 -left-4 text-2xl brillo-pika">✨</div>
+        <div class="parpadear absolute -top-2 -right-6 text-xl brillo-pika" style="animation-delay:.2s">⭐</div>
+        <div class="parpadear absolute top-10 -left-8 text-lg brillo-pika" style="animation-delay:.4s">⚡</div>
+        <div class="parpadear absolute top-6 -right-8 text-lg brillo-pika" style="animation-delay:.6s">💛</div>
+        <div class="parpadear absolute bottom-10 -left-6 text-xl brillo-pika" style="animation-delay:.3s">🎀</div>
+        <div class="parpadear absolute bottom-8 -right-6 text-xl brillo-pika" style="animation-delay:.5s">⭐</div>
+
+        <!-- 🎁 REGALITOS ALREDEDOR DE LA BASE -->
+        <div class="absolute -bottom-2 left-0 w-10 h-8 md:w-14 md:h-11 bg-pikaRojo rounded-sm border-2 border-pikaNegro shadow-lg">
+            <div class="absolute top-1/2 left-0 w-full h-1.5 bg-pikaAmarillo -translate-y-1/2"></div>
+            <div class="absolute left-1/2 top-0 h-full w-1.5 bg-pikaAmarillo -translate-x-1/2"></div>
+        </div>
+        <div class="absolute -bottom-2 right-0 w-9 h-7 md:w-12 md:h-10 bg-squirtleAzul rounded-sm border-2 border-pikaNegro shadow-lg">
+            <div class="absolute top-1/2 left-0 w-full h-1.5 bg-white -translate-y-1/2"></div>
+            <div class="absolute left-1/2 top-0 h-full w-1.5 bg-white -translate-x-1/2"></div>
+        </div>
+        <div class="absolute -bottom-1 left-1/4 w-7 h-6 md:w-10 md:h-8 bg-bulbaVerde rounded-sm border-2 border-pikaNegro shadow-lg">
+            <div class="absolute top-1/2 left-0 w-full h-1 bg-white -translate-y-1/2"></div>
+        </div>
+
+        <!-- 🟤 BASE PRINCIPAL MADERA DECORADA -->
+        <div class="absolute bottom-0 left-1/2 -translate-x-1/2 w-[98%] h-[18%] bg-gradient-to-b from-[#B5651D] to-[#7A3E0A] rounded-xl shadow-2xl border-b-4 border-pikaNegro">
+            <div class="absolute top-2 left-0 right-0 h-[2px] bg-pikaAmarillo/70 mx-3"></div>
+            <div class="absolute bottom-2 left-0 right-0 h-[2px] bg-pikaAmarillo/70 mx-3"></div>
+            <div class="absolute inset-0 flex justify-around items-center text-pikaAmarillo/60 text-xs">⚡ ⭐ ⚡ ⭐ ⚡ ⭐ ⚡</div>
+        </div>
+
+        <!-- 🌸 PISO 3 - EL MÁS GRANDE -->
+        <div class="absolute bottom-[16%] left-1/2 -translate-x-1/2 w-[85%] h-[26%] bg-gradient-to-b from-[#FFD94A] to-pikaAmarillo rounded-t-2xl shadow-xl border-x-4 border-t-4 border-pikaNegro overflow-hidden">
+            <!-- BETUN GOTEANDO -->
+            <div class="absolute top-0 left-0 w-full h-5 bg-white/90">
+                <div class="absolute -bottom-3 left-[5%] w-4 h-6 bg-white/90 rounded-full"></div>
+                <div class="absolute -bottom-4 left-[18%] w-5 h-8 bg-white/90 rounded-full"></div>
+                <div class="absolute -bottom-3 left-[32%] w-4 h-6 bg-white/90 rounded-full"></div>
+                <div class="absolute -bottom-5 left-[46%] w-6 h-10 bg-white/90 rounded-full"></div>
+                <div class="absolute -bottom-3 left-[60%] w-4 h-6 bg-white/90 rounded-full"></div>
+                <div class="absolute -bottom-4 left-[74%] w-5 h-8 bg-white/90 rounded-full"></div>
+                <div class="absolute -bottom-3 left-[88%] w-4 h-6 bg-white/90 rounded-full"></div>
+            </div>
+            <!-- ADORNOS -->
+            <div class="absolute top-8 left-3 w-4 h-4 bg-pikaRojo rounded-full border border-pikaNegro shadow"></div>
+            <div class="absolute top-10 left-[22%] w-2 h-2 bg-pikaNegro rotate-45"></div>
+            <div class="absolute top-7 left-[40%] text-lg">⭐</div>
+            <div class="absolute top-10 right-[22%] w-2 h-2 bg-charmNaranja rounded-full"></div>
+            <div class="absolute top-8 right-3 w-4 h-4 bg-squirtleAzul rounded-full border border-pikaNegro shadow"></div>
+            <div class="absolute bottom-2 left-1/2 -translate-x-1/2 text-xs tracking-widest text-pikaNegro font-bold">♡ FELIZ CUMPLE ♡</div>
+            <!-- POKEBOLA -->
+            <div class="absolute bottom-1 left-2 w-6 h-6 rounded-full border-2 border-pikaNegro bg-white overflow-hidden">
+                <div class="absolute top-0 w-full h-1/2 bg-pikaRojo"></div>
+                <div class="absolute top-1/2 left-0 w-full h-[2px] bg-pikaNegro -translate-y-1/2"></div>
+                <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-2 h-2 bg-white rounded-full border border-pikaNegro"></div>
+            </div>
+            <div class="absolute bottom-1 right-2 w-6 h-6 rounded-full border-2 border-pikaNegro bg-white overflow-hidden" style="transform:scaleX(-1)">
+                <div class="absolute top-0 w-full h-1/2 bg-pikaRojo"></div>
+                <div class="absolute top-1/2 left-0 w-full h-[2px] bg-pikaNegro -translate-y-1/2"></div>
+                <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-2 h-2 bg-white rounded-full border border-pikaNegro"></div>
+            </div>
+        </div>
+
+        <!-- ⚪ PISO 2 -->
+        <div class="absolute bottom-[40%] left-1/2 -translate-x-1/2 w-[66%] h-[24%] bg-gradient-to-b from-white to-[#F0F0F0] rounded-t-2xl shadow-xl border-x-4 border-t-4 border-pikaNegro overflow-hidden">
+            <div class="absolute top-0 w-full h-4 bg-gradient-to-b from-pikaRojo to-[#D32F2F]">
+                <div class="absolute -bottom-2 left-[10%] w-3 h-4 bg-pikaRojo rounded-full"></div>
+                <div class="absolute -bottom-3 left-[30%] w-4 h-5 bg-pikaRojo rounded-full"></div>
+                <div class="absolute -bottom-3 left-[52%] w-4 h-5 bg-pikaRojo rounded-full"></div>
+                <div class="absolute -bottom-2 left-[75%] w-3 h-4 bg-pikaRojo rounded-full"></div>
+                <div class="absolute -bottom-2 right-[8%] w-3 h-4 bg-pikaRojo rounded-full"></div>
+            </div>
+            <div class="absolute top-8 w-full flex justify-around text-sm">⚡ 💛 ⚡ 💛 ⚡</div>
+            <div class="absolute bottom-2 w-full text-center text-pikaNegro font-bold text-xs tracking-widest">PIKA · PIKA</div>
+            <!-- CHISPAS DE COLORES -->
+            <div class="absolute bottom-5 left-[15%] w-1.5 h-1.5 bg-pikaAmarillo rounded-full"></div>
+            <div class="absolute bottom-6 left-[35%] w-1.5 h-1.5 bg-pikaRojo rounded-full"></div>
+            <div class="absolute bottom-5 left-[55%] w-1.5 h-1.5 bg-squirtleAzul rounded-full"></div>
+            <div class="absolute bottom-6 left-[75%] w-1.5 h-1.5 bg-bulbaVerde rounded-full"></div>
+        </div>
+
+        <!-- 🟡 PISO 1 - CABEZA PIKACHU COMPLETA -->
+        <div class="absolute bottom-[62%] left-1/2 -translate-x-1/2 w-[48%] h-[26%] bg-gradient-to-b from-[#FFE066] to-pikaAmarillo rounded-full shadow-2xl border-4 border-pikaNegro overflow-visible">
+            <!-- OREJAS -->
+            <div class="absolute -top-7 left-1 w-4 h-11 bg-pikaAmarillo rounded-t-full -rotate-[25deg] border-2 border-pikaNegro">
+                <div class="absolute top-0 w-full h-[55%] bg-pikaNegro rounded-t-full"></div>
+                <div class="absolute top-1 left-0.5 w-1.5 h-2 bg-pikaRojo/60 rounded-full"></div>
+            </div>
+            <div class="absolute -top-7 right-1 w-4 h-11 bg-pikaAmarillo rounded-t-full rotate-[25deg] border-2 border-pikaNegro">
+                <div class="absolute top-0 w-full h-[55%] bg-pikaNegro rounded-t-full"></div>
+                <div class="absolute top-1 right-0.5 w-1.5 h-2 bg-pikaRojo/60 rounded-full"></div>
+            </div>
+            <!-- OJOS BRILLANTES CON PESTAÑAS -->
+            <div class="absolute top-5 left-[22%] w-3.5 h-4.5 bg-pikaNegro rounded-full">
+                <div class="absolute top-0.5 left-0.5 w-1.5 h-1.5 bg-white rounded-full"></div>
+                <div class="absolute bottom-0.5 right-0.5 w-1 h-1 bg-white/70 rounded-full"></div>
+                <div class="absolute -top-1.5 -left-0.5 w-1 h-1.5 bg-pikaNegro rounded-full -rotate-12"></div>
+                <div class="absolute -top-2 left-1 w-0.5 h-1.5 bg-pikaNegro rounded-full"></div>
+            </div>
+            <div class="absolute top-5 right-[22%] w-3.5 h-4.5 bg-pikaNegro rounded-full">
+                <div class="absolute top-0.5 left-0.5 w-1.5 h-1.5 bg-white rounded-full"></div>
+                <div class="absolute bottom-0.5 right-0.5 w-1 h-1 bg-white/70 rounded-full"></div>
+                <div class="absolute -top-1.5 -right-0.5 w-1 h-1.5 bg-pikaNegro rounded-full rotate-12"></div>
+                <div class="absolute -top-2 right-1 w-0.5 h-1.5 bg-pikaNegro rounded-full"></div>
+            </div>
+            <!-- NARIZ -->
+            <div class="absolute top-[58%] left-1/2 -translate-x-1/2 w-2 h-1.5 bg-pikaNegro rounded-full"></div>
+            <!-- BOCA SONRIENDO -->
+            <div class="absolute top-[68%] left-1/2 -translate-x-1/2 w-5 h-2.5 border-b-2 border-pikaNegro rounded-b-full"></div>
+            <!-- MEJILLAS ROJAS BRILLANTES -->
+            <div class="absolute top-[55%] -left-1 w-5 h-3 bg-gradient-to-r from-pikaRojo to-[#FF6B81] rounded-full opacity-90 shadow-[0_0_8px_#FF3B30]"></div>
+            <div class="absolute top-[55%] -right-1 w-5 h-3 bg-gradient-to-l from-pikaRojo to-[#FF6B81] rounded-full opacity-90 shadow-[0_0_8px_#FF3B30]"></div>
+            <!-- BIGOTES -->
+            <div class="absolute top-[62%] -left-4 w-3 h-[1.5px] bg-pikaNegro"></div>
+            <div class="absolute top-[70%] -left-3.5 w-2.5 h-[1.5px] bg-pikaNegro"></div>
+            <div class="absolute top-[62%] -right-4 w-3 h-[1.5px] bg-pikaNegro"></div>
+            <div class="absolute top-[70%] -right-3.5 w-2.5 h-[1.5px] bg-pikaNegro"></div>
+        </div>
+
+        <!-- 🕯️ VELAS + NÚMERO DE EDAD -->
+        <div class="absolute bottom-[86%] left-[30%] w-2.5 h-12 bg-gradient-to-b from-pikaRojo to-white via-pikaRojo rounded-sm border border-pikaNegro">
+            <div class="absolute top-2 w-full h-[2px] bg-white"></div>
+            <div class="absolute bottom-2 w-full h-[2px] bg-white"></div>
+        </div>
+        <div class="absolute bottom-[86%] left-[46%] w-3 h-14 bg-gradient-to-b from-pikaAmarillo to-white via-pikaAmarillo rounded-sm border border-pikaNegro flex items-center justify-center">
+            <span class="text-pikaNegro font-black text-[10px] mt-1" id="numeroEdad"></span>
+        </div>
+        <div class="absolute bottom-[86%] right-[30%] w-2.5 h-12 bg-gradient-to-b from-pikaNegro to-white via-pikaNegro rounded-sm border border-pikaNegro">
+            <div class="absolute top-2 w-full h-[2px] bg-white"></div>
+            <div class="absolute bottom-2 w-full h-[2px] bg-white"></div>
+        </div>
+
+        <!-- 🔥 LLAMAS QUE SE APAGAN -->
+        <div id="f1" class="parpadear absolute bottom-[99%] left-[28.5%] w-3.5 h-6 bg-gradient-to-t from-orange-500 via-pikaAmarillo to-white rounded-full blur-[0.4px]"></div>
+        <div id="f2" class="parpadear absolute bottom-[101%] left-[45.5%] w-4 h-7 bg-gradient-to-t from-orange-500 via-pikaAmarillo to-white rounded-full blur-[0.4px]" style="animation-delay:.2s"></div>
+        <div id="f3" class="parpadear absolute bottom-[99%] right-[28.5%] w-3.5 h-6 bg-gradient-to-t from-orange-500 via-pikaAmarillo to-white rounded-full blur-[0.4px]" style="animation-delay:.4s"></div>
+
+        <p class="text-xs text-pikaNegro font-bold absolute -bottom-8 left-1/2 -translate-x-1/2 w-full whitespace-nowrap">✨ 👉 HAZ CLIC PARA SOPLAR LAS VELAS Y PEDIR UN DESEO 👈 ✨</p>
+    </div>
+</div>
+
+        <div class="crecer max-w-2xl bg-white/75 backdrop-blur rounded-2xl p-6 md:p-8 shadow-2xl border-4 border-pikaNegro mb-8" style="animation-delay:1.8s">
+            <p class="text-pikaNegro text-lg md:text-xl leading-relaxed">
+                🎶 <i>"Y es que tú eres mi ropa de bazar, la que me queda bien y no quito nunca más..."</i> 🎶<br><br>
+                Hoy suena esta canción que tanto nos gusta,y es parte de nuestra historia<b>Una canción unica  </b>, 
+                que siempre me recuerda a ti <b class="text-pikaRojo">te deseo mucho amor, salud, aventuras y mucha felicidad</b> ❤️💕
+            </p>
+        </div>
+
+        <div class="flex flex-wrap gap-4 justify-center">
+            <button id="btnConfeti" class="crecer bg-pikaAmarillo hover:bg-pikaRojo hover:text-white text-pikaNegro font-bold px-8 py-4 rounded-full text-lg shadow-2xl border-4 border-pikaNegro hover:scale-110 transition" style="animation-delay:2.1s">🎊 MÁS CONFETI 🎊</button>
+            <button id="btnFuegos" class="crecer bg-pikaNegro hover:bg-pikaRojo text-white font-bold px-8 py-4 rounded-full text-lg shadow-2xl border-4 border-pikaAmarillo hover:scale-110 transition" style="animation-delay:2.3s">🎆 FUEGOS ⚡</button>
+        </div>
+    </main>
+
+    <!-- 🎶 CANCIÓN: ROPA DE BAZAR - 2 OPCIONES -->
+    <!-- OPCIÓN 1: ARCHIVO MP3 (cambia el nombre si tienes el tuyo) -->
+    <audio id="musicaMP3" loop preload="auto" volume="0.35">
+        <!-- 👇 DESCOMENTA Y PONE TU ARCHIVO AQUÍ 👇 -->
+        <!-- <source src="ropa-de-bazar-ed-maverick.mp3" type="audio/mpeg"> -->
+        <source src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3" type="audio/mpeg">
+    
+
+    <!-- OPCIÓN 2: YOUTUBE OFICIAL - ROPA DE BAZAR ED MAVERICK FT BRATTY (OCULTO) -->
+    <iframe id="musicaYT" class="fixed opacity-0 pointer-events-none -z-10" width="1" height="1" 
+        src="https://www.youtube.com/embed/pquJZEwPBjM?autoplay=1&mute=0&loop=1&playlist=pquJZEwPBjM&enablejsapi=1"
+        frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>
+
+    <script>
+        // DATOS PRINCIPALES
+        document.getElementById('nombre').textContent = NOMBRE_CUMPLEANERO.toUpperCase();
+        document.getElementById('edad').textContent = EDAD_CUMPLIDA;
+
+        // 🎊 CONFETI
+        const cC=document.getElementById('confeti');
+        const colores=['#FFCB05','#FF3B30','#1A1A1A','#FFF','#A0522D','#42A5F5','#66BB6A','#FF7043'];
+        const formas=['⚡','★','●','♦','♥','🖤'];
+        function confeti(c=120){for(let i=0;i<c;i++){const x=document.createElement('div');x.innerText=formas[Math.floor(Math.random()*formas.length)];x.style.cssText=`position:absolute;left:${Math.random()*100}vw;color:${colores[Math.floor(Math.random()*colores.length)]};font-size:${Math.random()*18+10}px;animation-duration:${Math.random()*4+3}s;animation-delay:${Math.random()*2}s`;x.classList.add('caer-confeti');cC.appendChild(x);setTimeout(()=>x.remove(),8000)}}
+
+        // 🎆 FUEGOS
+        const cF=document.getElementById('fuegos');
+        function fuegos(c=6){for(let i=0;i<c;i++){setTimeout(()=>{const x=Math.random()*80+10,y=Math.random()*50+15;const f=document.createElement('div');f.style.cssText=`position:absolute;left:${x}vw;top:${y}vh;width:6px;height:6px;background:${colores[Math.floor(Math.random()*colores.length)]};border-radius:50%;box-shadow:0 0 20px 10px ${colores[Math.floor(Math.random()*colores.length)]}`;f.classList.add('explosion');cF.appendChild(f);setTimeout(()=>f.remove(),900);for(let r=0;r<8;r++){const ry=document.createElement('div');ry.style.cssText=`position:absolute;left:${x}vw;top:${y}vh;width:40px;height:3px;background:#FFCB05;transform-origin:left;transform:rotate(${r*45}deg);box-shadow:0 0 10px #FFD93D`;ry.classList.add('explosion');cF.appendChild(ry);setTimeout(()=>ry.remove(),900)}},i*350)}}
+
+        // 🔥 APAGAR VELAS
+        let velas=4,fs=[document.getElementById('f1'),document.getElementById('f2'),document.getElementById('f3')];
+        document.getElementById('pastel').addEventListener('click',()=>{if(velas>0){fs[velas-1].classList.add('apagada');velas--;confeti(60);if(velas===0){setTimeout(()=>fuegos(8),400);setTimeout(()=>alert(' + ⚡ ¡Pide un deseo! ⚡'),600)}}});
+
+       document.getElementById('btnFuegos').onclick=()=>{fuegos(10);confeti(80)};
+         document.addEventListener('click',e=>{if(!['btnConfeti','btnFuegos','btnMusica','pastel'].includes(e.target.id)&&!e.target.closest('#pastel')) confeti(30)});
+         // 🎶 CONTROL DE MÚSICA UNIFICADO
+         const mp3=document.getElementById('musicaMP3');
+         const yt=document.getElementById('musicaYT');
+         const btnM=document.getElementById('btnMusica');
+         let prendida=true;
+         mp3.volume=0.35;
+         function controlMusica(estado){
+             if(estado){
+                 mp3.play().catch(()=>{});
+                 yt.src+=""; // recarga para activar autoplay
+                 btnM.innerHTML='<i class="fa fa-volume-up"></i>';
+             }else{
+                 mp3.pause();
+                 yt.src=yt.src.replace('autoplay=1','autoplay=0');
+                 btnM.innerHTML='<i class="fa fa-volume-off"></i>';
+             }
+             prendida=estado;
+         }
+         btnM.addEventListener('click',()=>controlMusica(!prendida));
+         // AL INICIAR
+         window.addEventListener('load',()=>{
+             confeti(200);
+             controlMusica(true);
+             setTimeout(()=>fuegos(4),1500);
+         });
+     </script>
+ </body>
+ </html>
